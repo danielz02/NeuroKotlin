@@ -1,6 +1,6 @@
+import org.jetbrains.numkt.*
 import org.jetbrains.numkt.core.*
 import org.jetbrains.numkt.math.*
-import org.jetbrains.numkt.*
 
 @ExperimentalNumkt
 fun main() {
@@ -9,8 +9,8 @@ fun main() {
     // [10, 11, 12, 13, 14]]
 
     println(a.shape.contentEquals(intArrayOf(3, 5))) // true
-    println(a.ndim == 2)                             // true
-    println(a.dtype)                                 // class java.lang.Integer
+    println(a.ndim == 2) // true
+    println(a.dtype) // class java.lang.Integer
 
     // create an array of ints, we square each element and the shape to (3, 5)
     val b = (arange(15) `**` 2).reshape(3, 5)
@@ -32,5 +32,4 @@ fun main() {
     //  [18995 21074 23153 25232 27311]
     //  [24530 27266 30002 32738 35474]
     //  [31085 34622 38159 41696 45233]]
-
 }

@@ -2,10 +2,12 @@ package schedulers
 
 import kotlin.math.pow
 
-class ExponentialScheduler(private val initialLr: Number = 0.01,
-                           private val stageLength: Int = 500,
-                           private val stairCase: Boolean = false,
-                           private val decay: Double = 0.01) {
+class ExponentialScheduler(
+    private val initialLr: Number = 0.01,
+    private val stageLength: Int = 500,
+    private val stairCase: Boolean = false,
+    private val decay: Double = 0.01
+) {
 
     fun learningRate(step: Int): Double {
         var currentStage = (step / this.stageLength.toDouble())
