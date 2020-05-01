@@ -9,14 +9,23 @@ import schedulers.Scheduler
 @ExperimentalNumkt
 abstract class Optimizer {
     abstract val scheduler: Scheduler?
-    protected val cache: MutableMap<String, KtNDArray<Double>> = mutableMapOf<String, KtNDArray<Double>>()
-    protected val currentStep: Int = 0
+    protected val cache: MutableMap<String, KtNDArray<Double>> = mutableMapOf()
+    protected var currentStep: Int = 0
     abstract fun update(
         param: KtNDArray<Double>,
         paramGrad: KtNDArray<Double>,
         paramName: String,
-        currentLoss: Double? = null
+        currentLoss: KtNDArray<Double>? = null
     ): KtNDArray<Double>
+    fun step() { this.currentStep++ }
+    operator fun invoke(
+        param: KtNDArray<Double>,
+        paramGrad: KtNDArray<Double>,
+        paramName: String,
+        currentLoss: KtNDArray<Double>?
+    ): KtNDArray<Double> {
+        return this.update(param, paramGrad, paramName, currentLoss)
+    }
 }
 
 @ExperimentalNumkt
@@ -24,16 +33,16 @@ class SGD(
     private var lr: Double = 0.01,
     private val momentum: Double = 0.0,
     private val clipNorm: Double? = null,
-    override val scheduler: Scheduler? = null
+    override val scheduler: Scheduler
 ) : Optimizer() {
     override fun update(
         param: KtNDArray<Double>,
         paramGrad: KtNDArray<Double>,
         paramName: String,
-        currentLoss: Double?
+        currentLoss: KtNDArray<Double>?
     ): KtNDArray<Double> {
 
-        this.lr = (scheduler?.invoke(currentStep)) as Double
+        this.lr = scheduler(this.currentStep)
 
         // if(!cache.containsKey(paramName)) cache[paramName] = zerosLike(paramGrad)
 
@@ -48,3 +57,5 @@ class SGD(
         return param - update
     }
 }
+
+// TODO: Implement Adam. Pseudocode: https://arxiv.org/pdf/1412.6980.pdf
