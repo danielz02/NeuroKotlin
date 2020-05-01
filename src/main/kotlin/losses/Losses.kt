@@ -17,7 +17,7 @@ class L2Squared : Losses() {
      * Compute the L2 Squared loss, which is defined as sum(x_j - y_j)^2
      * @param yPred input, the prediction of model. Shape (N, C) where x[i,j] is the score for item i, class j
      * @param yTrue label, shape (N, C), y[i] is the label for x[i]
-     * * @return A pair in form (loss: scalar of loss, dx: gradient respect to x)
+     * @return A double that represents loss
      */
     override fun loss(yTrue: KtNDArray<Double>, yPred: KtNDArray<Double>): Double {
         val lossVec = ((yTrue - yPred) `**` 2).sum(axis = 1)
@@ -35,7 +35,7 @@ class L1Absolute : Losses() {
      * Compute the L1 absolute loss, which is defined as sum(abs(x_j-y_j))
      * @param yTrue input, the prediction of model. Shape (N, C) where x[i,j] is the score for item i, class j
      * @param yPred label, shape (N, C), y[i] is the label for x[i]
-     * @return A pair in form (loss: scalar of loss, dx: gradient respect to x)
+     * @return A double that represents loss
      */
     override fun loss(yTrue: KtNDArray<Double>, yPred: KtNDArray<Double>): Double {
         val lossVec = sum(absolute(yPred - yTrue), axis = 1)
@@ -54,7 +54,7 @@ class Hinge : Losses() {
      * Loss for item i, class j will be 0 if x[i,j] is smaller than margin(1)
      * @param yPred input, the prediction of model. Shape (N, C) where x[i,j] is the score for item i, class j
      * @param yTrue label, shape (N,), y[i] is the label for x[i] and 0 <= y[i] < C
-     * @return A pair in form (loss: scalar of loss, dx: gradient respect to x)
+     * @return A double that represents loss
      */
     override fun loss(yTrue: KtNDArray<Double>, yPred: KtNDArray<Double>): Double {
         val n = yPred.shape[0]
@@ -78,6 +78,12 @@ class Hinge : Losses() {
 
 @ExperimentalNumkt
 class Softmax : Losses() {
+    /**
+     * Compute the softmax loss, which is defined as -log(e^f_yi / sum(e^f_j)) where f's are normed
+     * @param x input, the prediction of model. Shape (N, C) where x[i,j] is the score for item i, class j
+     * @param y label, shape (N,), y[i] is the label for x[i] and 0 <= y[i] < C
+     * @return A double that represents loss
+     */
     override fun loss(yTrue: KtNDArray<Double>, yPred: KtNDArray<Double>): Double {
         val shift = yPred - yPred.max(1)
         val z = sum(exp(shift), axis = 1)

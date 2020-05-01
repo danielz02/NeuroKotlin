@@ -31,6 +31,11 @@ abstract class Layers(
     /** For children to override. */
     abstract fun backward(dLdy: MutableList<KtNDArray<Double>>, saveGradient: Boolean = true): MutableList<KtNDArray<Double>>
 
+    /**
+     * @return String: describes this layer, Int: para count
+     */
+    abstract fun info():Pair<String, Int>;
+
     fun freeze() {
         this.trainable = false
     }
@@ -138,6 +143,17 @@ class FullyConnected(
         val dw = x.t `@` dz
         val dB = dz.sum(axis = 0)
         return Triple(dx, dw, dB)
+    }
+
+    override fun toString(): String {
+        val numParam = nIn!! * nOut + nOut
+        return "Fully Connected, Weight ($nIn, $nOut), Bias ($nOut), Param count $numParam\n" +
+                "Activation is $activations"
+    }
+
+    override fun info(): Pair<String, Int> {
+        val numParam = nIn!! * nOut + nOut
+        return Pair(toString(), numParam)
     }
 }
 

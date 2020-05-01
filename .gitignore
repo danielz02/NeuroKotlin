@@ -33,3 +33,6 @@ build
 
 # Jupyter Notebook
 src/main/kotlin/models/.ipynb_checkpoints
+
+# data
+data
