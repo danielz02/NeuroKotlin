@@ -30,3 +30,6 @@ hs_err_pid*
 
 # Build Files
 build
+
+# Jupyter Notebook
+src/main/kotlin/models/.ipynb_checkpoints
