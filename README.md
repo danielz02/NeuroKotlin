@@ -7,17 +7,6 @@ We used Kotlin-Numpy, a language binding of Python's Numpy library, to deal with
 
 LICENSE: [anti-996](https://github.com/996icu/996.ICU).
 
-# Works Done
-
-We've modularized all of our code so that all the modules are extendable for future works. Below is a list of what we've done.
-
-* Activation Functions: We've implemented ReLU, sigmoid, and hyperbolic tangent and their gradients.
-* Layers: We've done with the basic linear layer including its forward path and backward path. I'll implement the convolution layer this weekend.
-* Models: We've assembled a model with fully connected layers but there's still some work to be done with backprop.
-* Optimizers: SGD and Adam should be good for now.
-* Schedulers: Constant scheduler and exponential scheduler for learning rate decay.
-[This is a link to our repo.](https://github.com/danielz02/NeuroKotlin)
-
 ## Works Done
 
 We've modularized all of our code so that all the modules are extendable for future works. Below is a list of what we've done.
